@@ -1,0 +1,23 @@
+@startuml sequence_d_auto_close
+autonumber
+actor "Scheduler (Cron)" as cron
+participant "BatchService" as batch
+database "Base de Données" as db
+
+title Scénario D : Fermeture Automatique des Inscriptions
+
+note right of cron : Exécution quotidienne\nà minuit (ex: 00:00)
+
+cron -> batch : runDailyUpdateJob()
+batch -> db : SELECT * FROM Formation\nWHERE statut='PUBLIEE'\nAND dateFinInscription < NOW()
+
+db --> batch : List<Formation> (Formations expirées)
+
+loop Pour chaque formation expirée
+    batch -> db : UPDATE Formation\nSET statut='FERMEE'\nWHERE id=...
+    batch -> db : Log activity ("Fermeture auto formation " + id)
+end
+
+batch --> cron : Job terminé (X formations fermées)
+
+@enduml

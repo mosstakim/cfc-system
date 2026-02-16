@@ -1,0 +1,32 @@
+@startuml
+title Cycle de vie d'une Inscription
+[*] --> PENDING : Candidat s'inscrit
+PENDING : Dossier en cours de constitution
+
+state PENDING {
+  [*] --> Incomplete : Création
+  Incomplete --> Complete : Upload toutes pièces
+  Complete --> Incomplete : Suppression pièce
+}
+
+PENDING --> VALIDATED : Admin valide
+PENDING --> REJECTED : Admin refuse
+
+VALIDATED : Candidat accepté
+VALIDATED --> [*]
+
+REJECTED : Candidature rejetée
+REJECTED --> [*]
+@enduml
+
+@startuml
+title Cycle de vie d'une Formation
+[*] --> BROUILLON : Création
+BROUILLON : Visible seulement par l'Admin
+
+BROUILLON --> PUBLIEE : Admin publie
+PUBLIEE : Visible sur le portail
+
+PUBLIEE --> ARCHIVEE : Fin de vie / Supprimée
+ARCHIVEE --> [*]
+@enduml

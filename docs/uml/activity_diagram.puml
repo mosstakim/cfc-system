@@ -1,0 +1,45 @@
+@startuml activity_diagram
+title Parcours Candidat - Inscription CFC
+
+start
+:Visiter le portail CFC;
+
+if (Compte existant ?) then (Oui)
+  :Authentification;
+else (Non)
+  :Créer un compte;
+  :Valider email;
+endif
+
+:Consulter le catalogue des formations;
+
+if (Formation trouvée ?) then (Oui)
+  :Consulter détails;
+  if (Inscriptions ouvertes ?) then (Oui)
+    :Cliquer sur "Pré-inscription";
+    
+    if (Eligible ?) then (Oui)
+      :Remplir formulaire état civil;
+      :Téléverser pièces jointes (Dossier);
+      :Soumettre dossier;
+      
+      fork
+        :Envoi notification email;
+      fork again
+        :Enregistrement statut "EN_ATTENTE";
+      end fork
+      
+      :Afficher confirmation;
+    else (Non)
+      :Afficher message "Non éligible" (Déjà inscrit/Requis manquants);
+    endif
+    
+  else (Non)
+    :Afficher "Inscriptions fermées";
+  endif
+else (Non)
+  :Rechercher autre formation;
+endif
+
+stop
+@enduml

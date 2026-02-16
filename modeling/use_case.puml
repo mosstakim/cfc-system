@@ -1,0 +1,59 @@
+@startuml
+title Diagramme de Cas d'Utilisation - Système CFC
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Candidat" as candidate
+actor "Coordinateur" as coordinator
+actor "Admin Établissement" as admin_etab
+actor "Super Admin" as super_admin
+
+rectangle "Système CFC" {
+
+  usecase "Consulter catalogue formations" as UC1
+  usecase "Se préinscrire / Créer compte" as UC2
+  usecase "Déposer / Compléter dossier" as UC3
+  usecase "Suivre statut inscription" as UC4
+  
+  usecase "Gérer formations (CRUD)" as UC5
+  usecase "Ouvrir/Fermer période inscription" as UC6
+  usecase "Valider/Refuser inscriptions" as UC7
+  usecase "Publier formation" as UC8
+  
+  usecase "Gérer tous les établissements" as UC9
+  usecase "Gérer utilisateurs et rôles" as UC10
+  usecase "Configuration globale" as UC11
+  usecase "Reporting global" as UC12
+}
+
+candidate --> UC1
+candidate --> UC2
+candidate --> UC3
+candidate --> UC4
+
+coordinator --> UC1
+coordinator --> UC6 : (pour sa formation)
+coordinator --> UC5 : (Brouillon uniquement)
+
+admin_etab --> UC5 : (Complet pour son Etab)
+admin_etab --> UC7
+admin_etab --> UC8
+admin_etab -up-|> coordinator : (hérite accès lecture)
+
+super_admin --> UC9
+super_admin --> UC10
+super_admin --> UC11
+super_admin --> UC12
+super_admin -up-|> admin_etab : (peut tout faire)
+
+note right of UC6
+  Possible uniquement si
+  date courante dans intervalle
+end note
+
+note right of UC3
+  Téléchargement pièces :
+  CV, Diplôme, CIN
+end note
+
+@enduml

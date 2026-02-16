@@ -1,0 +1,34 @@
+@startuml state_diagram
+
+' --- Cycle de vie Formation ---
+state "Cycle de vie Formation" as FormationCycle {
+  [*] --> Brouillon : Création
+  Brouillon --> Publiée : Publication (Admin/Coord)
+  Publiée --> InscriptionsOuvertes : Période atteinte (Start Date)
+  InscriptionsOuvertes --> InscriptionsFermées : Date fin atteinte (Scheduler)
+  InscriptionsOuvertes --> Publiée : Fermeture manuelle
+  InscriptionsFermées --> Terminée : Fin de la formation
+  Terminée --> [*]
+}
+
+' --- Cycle de vie Inscription ---
+state "Cycle de vie Inscription" as InscriptionCycle {
+  [*] --> EnAttente : Candidat soumet dossier
+  EnAttente --> Validée : Admin valide
+  EnAttente --> Rejetée : Admin refuse (Motif requis)
+  
+  state Validée {
+     [*] --> PaiementAttente
+     PaiementAttente --> InscritFinal : Paiement confirmé
+  }
+  
+  Rejetée --> [*]
+  InscritFinal --> [*]
+}
+
+note bottom of FormationCycle
+  Transition "InscriptionsOuvertes" 
+  automatique si Today >= DateDebut
+end note
+
+@enduml

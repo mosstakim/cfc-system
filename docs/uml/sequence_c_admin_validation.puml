@@ -1,0 +1,36 @@
+@startuml sequence_c_admin_validation
+autonumber
+actor "Admin Etablissement" as admin
+participant "Dashboard Admin" as dash
+participant "InscriptionController" as ctrl
+database "Base de Données" as db
+participant "NotificationService" as notif
+
+title Scénario C : Validation ou Refus d'Inscription
+
+admin -> dash : Liste des inscriptions "EN_ATTENTE"
+dash -> ctrl : getPendingInscriptions(etabId)
+ctrl -> db : SELECT * FROM Inscription\nWHERE statut='EN_ATTENTE'\nAND formation.etablissement_id = ...
+db --> ctrl : List<Inscription>
+ctrl --> dash : Affiche tableau
+
+admin -> dash : Ouvre un dossier
+dash -> ctrl : getDossierDetails(inscrId)
+ctrl --> dash : Affiche pièces jointes
+
+alt Décision : VALIDER
+    admin -> dash : Clique "Valider"
+    dash -> ctrl : validateInscription(inscrId)
+    ctrl -> db : UPDATE Inscription SET statut='VALIDEE'
+    ctrl -> notif : sendEmail(userId, "Accepté")
+    notif --> ctrl : Sent
+    ctrl --> dash : OK
+else Décision : REFUSER
+    admin -> dash : Clique "Refuser" + Motif
+    dash -> ctrl : rejectInscription(inscrId, motif)
+    ctrl -> db : UPDATE Inscription SET statut='REJETEE', motif=...
+    ctrl -> notif : sendEmail(userId, "Refusé: " + motif)
+    notif --> ctrl : Sent
+    ctrl --> dash : OK
+end
+@enduml

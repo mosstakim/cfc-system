@@ -1,0 +1,132 @@
+@startuml class_diagram
+
+' Skinparams pour un look plus moderne
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+skinparam linetype ortho
+
+' --- Enums ---
+enum StatutInscription {
+    BROUILLION
+    EN_ATTENTE
+    VALIDEE
+    REJETEE
+}
+
+enum StatutFormation {
+    BROUILLON
+    PUBLIEE
+    ARCHIVEE
+}
+
+' --- Classes Métier ---
+
+class Etablissement {
+    - id : Long
+    - nom : String
+    - ville : String
+    + getFormations() : List<Formation>
+}
+
+class Formation {
+    - id : Long
+    - titre : String
+    - description : Text
+    - fraisDossier : Decimal
+    - statut : StatutFormation
+    - dateDebutInscription : DateTime
+    - dateFinInscription : DateTime
+    + isPubliee() : Boolean
+    + isInscriptionOuverte() : Boolean
+}
+
+class Dossier {
+    - id : Long
+    - dateDepot : DateTime
+    - piecesJointes : List<String>
+    + ajouterPiece(path: String)
+}
+
+class Inscription {
+    - id : Long
+    - dateCreation : DateTime
+    - statut : StatutInscription
+    - motifRejet : String
+    + valider()
+    + rejeter(motif: String)
+}
+
+' --- Classes RBAC / Utilisateurs ---
+
+abstract class Utilisateur {
+    - id : Long
+    - email : String
+    - motDePasseHash : String
+    - nom : String
+    - prenom : String
+    + login()
+}
+
+class Role {
+    - nom : String
+    - description : String
+}
+
+class Permission {
+    - code : String
+    - description : String
+}
+
+class Candidat {
+    - cne : String
+    - telephone : String
+}
+
+class AdminEtablissement {
+    - departement : String
+}
+
+class Coordinateur {
+    - specialite : String
+}
+
+class SuperAdmin {
+    ' Privilèges globaux
+}
+
+' --- Relations ---
+
+' RBAC
+Utilisateur "*" -- "*" Role : a >
+Role "*" -- "*" Permission : contient >
+
+' Héritage Utilisateurs
+Utilisateur <|-- Candidat
+Utilisateur <|-- AdminEtablissement
+Utilisateur <|-- Coordinateur
+Utilisateur <|-- SuperAdmin
+
+' Métier
+Etablissement "1" *-- "*" Formation : propose >
+AdminEtablissement "1" --> "*" Etablissement : gère >
+
+Formation "1" -- "*" Inscription : concerne <
+Candidat "1" -- "*" Inscription : effectue >
+Inscription "1" *-- "1" Dossier : contient >
+
+Coordinateur "*" --> "*" Formation : supervise >
+
+' Notes de règles
+note top of Formation
+  Regle Inscription:
+  ouverte SI statut == PUBLIEE
+  ET now() ENTRE dateDebut ET dateFin
+end note
+
+note right of Inscription
+  Lier admin validation:
+  validation par AdminEtablissement
+  via méthode valider()
+end note
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+title Parcours Candidat - Inscription CFC
+start
+:Consulter le catalogue;
+:Choisir une formation;
+if (Session ouverte ?) then (oui)
+  :Cliquer "S'inscrire";
+  if (Déjà un compte ?) then (non)
+    :Remplir formulaire (Nom, Email...);
+    :Créer compte;
+  else (oui)
+    :Se connecter;
+  endif
+  :Confirmer inscription à la session;
+  :Accéder au Tableau de bord;
+  repeat
+    :Télécharger pièce justificative;
+  repeat while (Dossier incomplet ?) is (oui)
+  :Dossier complet;
+  stop
+else (non)
+  :Afficher "Inscriptions fermées";
+  stop
+endif
+@enduml

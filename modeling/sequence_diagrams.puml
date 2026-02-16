@@ -1,0 +1,87 @@
+@startuml
+title Scénario A: Coordinateur ouvre les inscriptions
+actor Coordinateur
+participant Frontend
+participant "API (SessionController)" as API
+participant "Database" as DB
+
+Coordinateur -> Frontend: Accède au Dashboard
+Frontend -> API: GET /academic (Fetch Formations)
+API -> DB: SELECT * FROM formation...
+DB --> API: Formations Data
+API --> Frontend: List<Formation>
+Frontend -> Coordinateur: Affiche liste sessions
+Coordinateur -> Frontend: Clique "Modifier" session
+Coordinateur -> Frontend: Définit dates & coche "Ouvert"
+Coordinateur -> Frontend: Valide
+Frontend -> API: PATCH /sessions/{id} { isOpen: true, ... }
+API -> DB: UPDATE session SET ...
+DB --> API: Updated Session
+API --> Frontend: 200 OK
+Frontend -> Coordinateur: Message succès & Status "OUVERT"
+@enduml
+
+@startuml
+title Scénario B: Candidat se préinscrit + soumet dossier
+actor Candidat
+participant "Portail Inscription" as Portal
+participant "API (Registration)" as API
+participant "Database" as DB
+participant "EmailService" as Mail
+
+Candidat -> Portal: Choisit Formation/Session
+Portal -> Candidat: Formulaire Inscription
+Candidat -> Portal: Remplit info & Submit
+Portal -> API: POST /users (Création compte)
+API -> DB: INSERT User
+API -> API: Generate Token (Login auto)
+Portal -> API: POST /registration {sessionId, candidateId}
+API -> DB: INSERT Registration (PENDING)
+API -> DB: INSERT Dossier (Empty)
+API --> Portal: 201 Created
+Portal -> Candidat: "Inscription réussie, connectez-vous"
+Candidat -> Portal: Upload Pièces (CV, Diplôme)
+Portal -> API: POST /upload (File)
+API -> DB: UPDATE Dossier SET documents...
+API --> Portal: Upload Success
+Portal -> Candidat: "Dossier Complet"
+@enduml
+
+@startuml
+title Scénario C: Admin d'établissement valide une inscription
+actor Admin
+participant "Admin Dashboard" as Dashboard
+participant "API (Registration)" as API
+participant "EmailService" as Mail
+participant "Database" as DB
+
+Admin -> Dashboard: Consulte liste inscriptions
+Dashboard -> API: GET /registration
+API -> DB: SELECT * FROM registration...
+DB --> API: List
+API --> Dashboard: Affiche tableau
+Admin -> Dashboard: Vérifie pièces dossier
+Dashboard -> Admin: Affiche PDF (CV, etc)
+Admin -> Dashboard: Clique "Valider"
+Dashboard -> API: PATCH /registration/{id} { status: 'VALIDATED' }
+API -> DB: UPDATE registration...
+API -> Mail: SendAccountValidation(User)
+Mail --> API: Sent
+API --> Dashboard: 200 OK
+Dashboard -> Admin: Statut mis à jour (Vert)
+@enduml
+
+@startuml
+title Scénario D: Fermeture automatique (Job Planifié)
+participant "Scheduler (Cron)" as Cron
+participant "AcademicService" as Service
+participant "Database" as DB
+
+Cron -> Service: Trigger closeSessions() (Daily)
+Service -> DB: SELECT * FROM session WHERE endDate < NOW() AND isOpen = true
+DB --> Service: List<ExpiredSessions>
+loop for each session
+    Service -> DB: UPDATE session SET isOpen = false
+end
+Service -> Cron: Job Complete
+@enduml

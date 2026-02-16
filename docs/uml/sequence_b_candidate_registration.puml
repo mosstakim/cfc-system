@@ -1,0 +1,36 @@
+@startuml sequence_b_candidate_registration
+autonumber
+actor "Candidat" as c
+participant "Portail CFC" as portal
+participant "InscriptionController" as ctrl
+participant "FormationService" as service
+database "Base de Données" as db
+
+title Scénario B : Préinscription et Dépôt Dossier
+
+c -> portal : Consulte Catalogue
+portal -> service : getActiveFormations()
+service -> db : SELECT * FROM Formation\nWHERE statut=PUBLIE\nAND now() BETWEEN start AND end
+db --> service : List<Formation>
+service --> portal : Affiche formations actives
+
+c -> portal : Choisit formation -> "S'inscrire"
+portal -> c : Demande authentification (si non connecté)
+c -> portal : Login / Création compte
+portal -> ctrl : checkEligibility(userId, formationId)
+ctrl -> db : countBy(userId, formationId)
+db --> ctrl : 0 (Pas encore inscrit)
+ctrl --> portal : OK, formulaire inscription
+
+c -> portal : Remplit formulaire + Upload PDF
+portal -> ctrl : submitInscription(data, file)
+ctrl -> service : saveDossier(file)
+service -> service : Stockage Fichier
+service --> ctrl : pathFichier
+ctrl -> db : INSERT Inscription (statut=EN_ATTENTE)
+db --> ctrl : ID Inscription
+ctrl -> service : sendEmailConfirmation(userId)
+ctrl --> portal : Succès "Dossier reçu"
+portal --> c : Affiche accusé de réception
+
+@enduml

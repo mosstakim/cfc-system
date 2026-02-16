@@ -1,0 +1,77 @@
+@startuml
+title Diagramme de Classes - Système CFC
+hide empty methods
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN_ETAB
+  COORDINATOR
+  CANDIDATE
+}
+
+enum RegistrationStatus {
+  PENDING
+  VALIDATED
+  REJECTED
+}
+
+class User {
+  +id: UUID
+  +email: String
+  +passwordHash: String
+  +firstName: String
+  +lastName: String
+  +role: UserRole
+  +isActive: Boolean
+}
+
+class Establishment {
+  +id: UUID
+  +name: String
+  +address: String
+  +city: String
+}
+
+class Formation {
+  +id: UUID
+  +title: String
+  +description: Text
+  +tuitionFees: Decimal
+  +duration: String
+  +isPublished: Boolean
+}
+
+class Session {
+  +id: UUID
+  +name: String
+  +startDate: Date
+  +endDate: Date
+  +isOpen: Boolean
+}
+
+class Registration {
+  +id: UUID
+  +status: RegistrationStatus
+  +createdAt: Date
+}
+
+class Dossier {
+  +id: UUID
+  +isComplete: Boolean
+  +documents: Json (CV, Diploma, ID)
+}
+
+' Relations
+
+User "1" -- "*" Registration : candidate
+User "*" -- "1" Establishment : admin/coord (via logic/role)
+
+Establishment "1" *-- "*" Formation : offers
+Formation "1" *-- "*" Session : has instances
+
+Registration "*" -- "1" Session : registers for
+Registration "1" -- "1" Dossier : contains
+
+note "RBAC Rules:\n- SuperAdmin manages Establishments & Users\n- AdminEtab manages Formations of their Establishment\n- Coordinator manages Session dates\n- Candidate manages their Registration/Dossier" as N1
+
+@enduml

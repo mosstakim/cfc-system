@@ -1,0 +1,77 @@
+@startuml usecase_diagram
+left to right direction
+skinparam packageStyle rectangle
+
+' Acteurs
+actor "Candidat" as c
+actor "Coordinateur" as coord
+actor "Admin Établissement" as admin_etab
+actor "Super Admin" as super_admin
+actor "Système / Scheduler" as scheduler
+
+' Héritage d'acteurs (optionnel, pour simplifier)
+' admin_etab peut faire tout ce que fait un utilisateur authentifié de base (non représenté ici)
+
+rectangle "Système CFC" {
+
+  package "Gestion des Formations" {
+    usecase "Créer une formation" as UC1
+    usecase "Publier une formation" as UC2
+    usecase "Définir la période d'inscription" as UC3
+    usecase "Consulter le catalogue" as UC4
+  }
+
+  package "Gestion des Inscriptions" {
+    usecase "Se préinscrire" as UC5
+    usecase "Déposer un dossier" as UC6
+    usecase "Valider une inscription" as UC7
+    usecase "Refuser une inscription" as UC8
+    usecase "Fermer les inscriptions" as UC9
+  }
+
+  package "Administration Globale" {
+    usecase "Gérer les établissements" as UC10
+    usecase "Gérer les administrateurs" as UC11
+    usecase "Voir les rapports globaux" as UC12
+  }
+
+}
+
+' Relations Candidat
+c --> UC4
+c --> UC5
+c --> UC6
+UC5 .> UC4 : <<include>>
+UC6 .> UC5 : <<include>>
+
+' Relations Coordinateur
+coord --> UC3
+
+' Relations Admin Etablissement
+admin_etab --> UC1
+admin_etab --> UC2
+admin_etab --> UC7
+admin_etab --> UC8
+UC2 .> UC1 : <<include>>
+
+' Relations Super Admin
+super_admin --> UC10
+super_admin --> UC11
+super_admin --> UC12
+super_admin --|> admin_etab : (peut agir comme)
+
+' Relations Système
+scheduler --> UC9
+
+note right of UC5
+  Condition:
+  Formation publiée
+  ET Période ouverte
+end note
+
+note right of UC9
+  Automatique à la
+  date de fin
+end note
+
+@enduml

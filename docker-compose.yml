@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: cfc_db
+    environment:
+      POSTGRES_USER: cfc_user
+      POSTGRES_PASSWORD: cfc_password
+      POSTGRES_DB: cfc_db
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - cfc_network
+
+  backend:
+    container_name: cfc_backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_USER=cfc_user
+      - DATABASE_PASSWORD=cfc_password
+      - DATABASE_NAME=cfc_db
+    depends_on:
+      - db
+    networks:
+      - cfc_network
+    command: npm run start:dev
+
+  frontend:
+    container_name: cfc_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "127.0.0.1:5173:5173"
+    environment:
+      - VITE_API_URL=http://backend:3000
+    networks:
+      - cfc_network
+    command: npm run dev -- --host
+
+networks:
+  cfc_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

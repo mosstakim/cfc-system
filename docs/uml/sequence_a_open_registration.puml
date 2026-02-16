@@ -1,0 +1,30 @@
+@startuml sequence_a_open_registration
+autonumber
+actor "Coordinateur" as coord
+participant "Interface Gestion" as ui
+participant "FormationController" as ctrl
+database "Base de Données" as db
+
+title Scénario A : Ouverture des Inscriptions
+
+coord -> ui : Sélectionne une formation
+ui -> ctrl : getFormationDetails(id)
+ctrl -> db : findById(id)
+db --> ctrl : Formation(titre, statut...)
+ctrl --> ui : Affiche détails
+
+coord -> ui : Clique "Ouvrir inscriptions"
+ui -> ui : Saisie dates (Start, End)
+ui -> ctrl : openRegistration(id, startDate, endDate)
+
+ctrl -> ctrl : Valider dates (Start < End)
+alt Dates invalides
+    ctrl --> ui : Erreur "Dates incohérentes"
+else Dates valides
+    ctrl -> db : Update Formation set\ndateDebut=..., dateFin=...,\nstatut=PUBLIEE
+    db --> ctrl : Confirmation
+    ctrl --> ui : Succès "Inscriptions ouvertes"
+end
+
+ui --> coord : Affiche confirmation
+@enduml
