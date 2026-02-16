@@ -77,20 +77,27 @@ export class SeederService implements OnApplicationBootstrap {
             await this.userRepository.save(coordinator);
         }
 
-        // 4. Candidate (Student)
-        const studentEmail = 'etudiant@test.com';
-        if (!await this.userRepository.findOneBy({ email: studentEmail })) {
-            this.logger.log('Creating candidate user...');
-            const passwordHash = await bcrypt.hash('student123', 10);
-            const student = this.userRepository.create({
-                email: studentEmail,
-                passwordHash,
-                firstName: 'Etudiant',
-                lastName: 'Test',
-                role: UserRole.CANDIDATE,
-                isActive: true,
-            });
-            await this.userRepository.save(student);
+        // 4. Candidates (Test Accounts)
+        const candidates = [
+            { email: 'etudiant@test.com', first: 'Etudiant', last: 'Test' },
+            { email: 'candidate1@test.com', first: 'Sara', last: 'Benali' },
+            { email: 'candidate2@test.com', first: 'Omar', last: 'Idrissi' }
+        ];
+
+        for (const c of candidates) {
+            if (!await this.userRepository.findOneBy({ email: c.email })) {
+                this.logger.log(`Creating candidate user ${c.email}...`);
+                const passwordHash = await bcrypt.hash('student123', 10);
+                const student = this.userRepository.create({
+                    email: c.email,
+                    passwordHash,
+                    firstName: c.first,
+                    lastName: c.last,
+                    role: UserRole.CANDIDATE,
+                    isActive: true,
+                });
+                await this.userRepository.save(student);
+            }
         }
     }
 
