@@ -29,10 +29,9 @@ export class SeederService implements OnApplicationBootstrap {
     }
 
     private async seedUsers() {
-        const adminEmail = 'admin@cfc.com';
-        const adminExists = await this.userRepository.findOneBy({ email: adminEmail });
-
-        if (!adminExists) {
+        // 1. Super Admin
+        const adminEmail = 'admin@cfc.usms.ac.ma';
+        if (!await this.userRepository.findOneBy({ email: adminEmail })) {
             this.logger.log('Creating super admin user...');
             const passwordHash = await bcrypt.hash('admin123', 10);
             const admin = this.userRepository.create({
@@ -46,19 +45,52 @@ export class SeederService implements OnApplicationBootstrap {
             await this.userRepository.save(admin);
         }
 
-        const coordinatorEmail = 'coordinator@cfc.com';
+        // 2. Admin Etablissement (FST)
+        const etabAdminEmail = 'fst.admin@cfc.usms.ac.ma';
+        if (!await this.userRepository.findOneBy({ email: etabAdminEmail })) {
+            this.logger.log('Creating establishment admin user...');
+            const passwordHash = await bcrypt.hash('fst123', 10);
+            const etabAdmin = this.userRepository.create({
+                email: etabAdminEmail,
+                passwordHash,
+                firstName: 'Admin',
+                lastName: 'FST',
+                role: UserRole.ADMIN_ETABLISSEMENT,
+                isActive: true,
+            });
+            await this.userRepository.save(etabAdmin);
+        }
+
+        // 3. Coordinator (MST)
+        const coordinatorEmail = 'coord.mst@cfc.usms.ac.ma';
         if (!await this.userRepository.findOneBy({ email: coordinatorEmail })) {
             this.logger.log('Creating coordinator user...');
             const passwordHash = await bcrypt.hash('coord123', 10);
             const coordinator = this.userRepository.create({
                 email: coordinatorEmail,
                 passwordHash,
-                firstName: 'John',
-                lastName: 'Coordinator',
+                firstName: 'Coordinateur',
+                lastName: 'MST',
                 role: UserRole.COORDINATOR,
                 isActive: true,
             });
             await this.userRepository.save(coordinator);
+        }
+
+        // 4. Candidate (Student)
+        const studentEmail = 'etudiant@test.com';
+        if (!await this.userRepository.findOneBy({ email: studentEmail })) {
+            this.logger.log('Creating candidate user...');
+            const passwordHash = await bcrypt.hash('student123', 10);
+            const student = this.userRepository.create({
+                email: studentEmail,
+                passwordHash,
+                firstName: 'Etudiant',
+                lastName: 'Test',
+                role: UserRole.CANDIDATE,
+                isActive: true,
+            });
+            await this.userRepository.save(student);
         }
     }
 

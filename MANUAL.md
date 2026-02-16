@@ -14,12 +14,12 @@ Une fois le système lancé (via Docker), l'application est accessible aux adres
 
 Pour vos premiers tests, vous pouvez utiliser les comptes suivants (mot de passe pour tous : `password123`) :
 
-| Rôle | Email | Description |
-| :--- | :--- | :--- |
-| **Super Admin** | `admin@cfc.usms.ac.ma` | Accès complet au système. |
-| **Admin Établissement** | `fst.admin@cfc.usms.ac.ma` | Gestion de la FST (Faculté des Sciences et Techniques). |
-| **Coordinateur** | `coord.mst@cfc.usms.ac.ma` | Gestion d'une formation (ex : MST). |
-| **Candidat** | `etudiant@test.com` | Compte étudiant pour tester l'inscription. |
+| Rôle | Email | Mot de Passe | Description |
+| :--- | :--- | :--- | :--- |
+| **Super Admin** | `admin@cfc.usms.ac.ma` | `admin123` | Accès complet au système. |
+| **Admin Établissement** | `fst.admin@cfc.usms.ac.ma` | `fst123` | Gestion de la FST. |
+| **Coordinateur** | `coord.mst@cfc.usms.ac.ma` | `coord123` | Gestion d'une formation (ex : MST). |
+| **Candidat** | `etudiant@test.com` | `student123` | Compte étudiant pour tester. |
 
 > **Note :** Vous pouvez créer votre propre compte candidat via le formulaire d'inscription sur la page d'accueil.
 
