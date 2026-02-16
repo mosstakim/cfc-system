@@ -13,12 +13,14 @@ exports.Establishment = void 0;
 const typeorm_1 = require("typeorm");
 const formation_entity_1 = require("./formation.entity");
 const class_transformer_1 = require("class-transformer");
+const user_entity_1 = require("../../users/entities/user.entity");
 let Establishment = class Establishment {
     id;
     name;
     address;
     website;
     formations;
+    admins;
 };
 exports.Establishment = Establishment;
 __decorate([
@@ -42,6 +44,11 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => formation_entity_1.Formation, (formation) => formation.establishment),
     __metadata("design:type", Array)
 ], Establishment.prototype, "formations", void 0);
+__decorate([
+    (0, class_transformer_1.Exclude)(),
+    (0, typeorm_1.OneToMany)(() => user_entity_1.User, (user) => user.establishment),
+    __metadata("design:type", Array)
+], Establishment.prototype, "admins", void 0);
 exports.Establishment = Establishment = __decorate([
     (0, typeorm_1.Entity)()
 ], Establishment);

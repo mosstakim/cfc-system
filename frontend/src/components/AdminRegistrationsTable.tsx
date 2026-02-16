@@ -23,7 +23,11 @@ interface Registration {
     };
 }
 
-function AdminRegistrationsTable() {
+interface Props {
+    establishmentId?: string;
+}
+
+function AdminRegistrationsTable({ establishmentId }: Props) {
     const [registrations, setRegistrations] = useState<Registration[]>([]);
     const [loading, setLoading] = useState(true);
     const [formationMap, setFormationMap] = useState<Record<string, string>>({});
@@ -40,15 +44,24 @@ function AdminRegistrationsTable() {
 
             setRegistrations(regRes.data);
 
-            // Build map of sessionId -> formationTitle
+            // Build map of sessionId -> formationTitle and sessionId -> establishmentId
             const formations = academicRes.data.formations || [];
             const tempMap: Record<string, string> = {};
+            const sessionEstMap: Record<string, string> = {};
+
             formations.forEach((f: any) => {
                 f.sessions?.forEach((s: any) => {
                     tempMap[s.id] = f.title;
+                    sessionEstMap[s.id] = f.establishmentId;
                 });
             });
             setFormationMap(tempMap);
+
+            let regs = regRes.data;
+            if (establishmentId) {
+                regs = regs.filter((r: any) => sessionEstMap[r.session.id] === establishmentId);
+            }
+            setRegistrations(regs);
 
             setLoading(false);
         } catch (error) {

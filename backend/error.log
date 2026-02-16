@@ -16,3 +16,57 @@
   "stack": "UnauthorizedException: Identifiants incorrects\n    at LocalStrategy.validate (/usr/src/app/src/auth/strategies/local.strategy.ts:16:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async LocalStrategy.callback [as _verify] (/usr/src/app/node_modules/@nestjs/passport/dist/passport/passport.strategy.js:13:44)"
 }
 ---
+{
+  "timestamp": "2026-02-16T20:08:54.165Z",
+  "path": "/users/69538434-4950-4261-8a4a-ed6d0299df8e",
+  "method": "DELETE",
+  "status": 404,
+  "error": "User with ID 69538434-4950-4261-8a4a-ed6d0299df8e not found",
+  "stack": "NotFoundException: User with ID 69538434-4950-4261-8a4a-ed6d0299df8e not found\n    at UsersService.remove (/usr/src/app/src/users/users.service.ts:67:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+}
+---
+{
+  "timestamp": "2026-02-16T20:19:51.308Z",
+  "path": "/auth/login",
+  "method": "POST",
+  "status": 401,
+  "error": "Identifiants incorrects",
+  "stack": "UnauthorizedException: Identifiants incorrects\n    at LocalStrategy.validate (/usr/src/app/src/auth/strategies/local.strategy.ts:16:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async LocalStrategy.callback [as _verify] (/usr/src/app/node_modules/@nestjs/passport/dist/passport/passport.strategy.js:13:44)"
+}
+---
+{
+  "timestamp": "2026-02-16T20:19:52.874Z",
+  "path": "/auth/login",
+  "method": "POST",
+  "status": 401,
+  "error": "Identifiants incorrects",
+  "stack": "UnauthorizedException: Identifiants incorrects\n    at LocalStrategy.validate (/usr/src/app/src/auth/strategies/local.strategy.ts:16:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async LocalStrategy.callback [as _verify] (/usr/src/app/node_modules/@nestjs/passport/dist/passport/passport.strategy.js:13:44)"
+}
+---
+{
+  "timestamp": "2026-02-16T20:20:04.590Z",
+  "path": "/auth/login",
+  "method": "POST",
+  "status": 401,
+  "error": "Identifiants incorrects",
+  "stack": "UnauthorizedException: Identifiants incorrects\n    at LocalStrategy.validate (/usr/src/app/src/auth/strategies/local.strategy.ts:16:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async LocalStrategy.callback [as _verify] (/usr/src/app/node_modules/@nestjs/passport/dist/passport/passport.strategy.js:13:44)"
+}
+---
+{
+  "timestamp": "2026-02-16T20:20:05.771Z",
+  "path": "/auth/login",
+  "method": "POST",
+  "status": 401,
+  "error": "Identifiants incorrects",
+  "stack": "UnauthorizedException: Identifiants incorrects\n    at LocalStrategy.validate (/usr/src/app/src/auth/strategies/local.strategy.ts:16:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async LocalStrategy.callback [as _verify] (/usr/src/app/node_modules/@nestjs/passport/dist/passport/passport.strategy.js:13:44)"
+}
+---
+{
+  "timestamp": "2026-02-16T20:22:41.011Z",
+  "path": "/auth/login",
+  "method": "POST",
+  "status": 401,
+  "error": "Identifiants incorrects",
+  "stack": "UnauthorizedException: Identifiants incorrects\n    at LocalStrategy.validate (/usr/src/app/src/auth/strategies/local.strategy.ts:16:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async LocalStrategy.callback [as _verify] (/usr/src/app/node_modules/@nestjs/passport/dist/passport/passport.strategy.js:13:44)"
+}
+---

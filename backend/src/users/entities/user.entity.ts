@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
 import { UserRole } from '../enums/user-role.enum';
 import { Exclude } from 'class-transformer';
+import { Establishment } from '../../academic/entities/establishment.entity';
 
 @Entity()
 export class User {
@@ -35,4 +36,7 @@ export class User {
 
     @UpdateDateColumn()
     updatedAt: Date;
+
+    @ManyToOne(() => Establishment, (establishment) => establishment.admins, { nullable: true })
+    establishment: Establishment;
 }

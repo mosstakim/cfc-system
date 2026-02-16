@@ -56,23 +56,30 @@ const bcrypt = __importStar(require("bcrypt"));
 const establishment_entity_1 = require("../academic/entities/establishment.entity");
 const formation_entity_1 = require("../academic/entities/formation.entity");
 const session_entity_1 = require("../academic/entities/session.entity");
+const registration_entity_1 = require("../registration/entities/registration.entity");
+const dossier_entity_1 = require("../registration/entities/dossier.entity");
+const registration_entity_2 = require("../registration/entities/registration.entity");
 let SeederService = SeederService_1 = class SeederService {
     userRepository;
     establishmentRepository;
     formationRepository;
     sessionRepository;
+    registrationRepository;
+    dossierRepository;
     logger = new common_1.Logger(SeederService_1.name);
-    constructor(userRepository, establishmentRepository, formationRepository, sessionRepository) {
+    constructor(userRepository, establishmentRepository, formationRepository, sessionRepository, registrationRepository, dossierRepository) {
         this.userRepository = userRepository;
         this.establishmentRepository = establishmentRepository;
         this.formationRepository = formationRepository;
         this.sessionRepository = sessionRepository;
+        this.registrationRepository = registrationRepository;
+        this.dossierRepository = dossierRepository;
         this.logger.log('SeederService initialized');
     }
     async onApplicationBootstrap() {
         this.logger.log('Initializing database seeding...');
-        await this.seedUsers();
         await this.seedAcademicData();
+        await this.seedUsers();
         this.logger.log('Database seeding completed.');
     }
     async seedUsers() {
@@ -92,6 +99,7 @@ let SeederService = SeederService_1 = class SeederService {
         }
         const etabAdminEmail = 'fst.admin@cfc.usms.ac.ma';
         if (!await this.userRepository.findOneBy({ email: etabAdminEmail })) {
+            const fst = await this.establishmentRepository.findOneBy({ name: 'FST Béni Mellal' });
             this.logger.log('Creating establishment admin user...');
             const passwordHash = await bcrypt.hash('fst123', 10);
             const etabAdmin = this.userRepository.create({
@@ -100,6 +108,7 @@ let SeederService = SeederService_1 = class SeederService {
                 firstName: 'Admin',
                 lastName: 'FST',
                 role: user_role_enum_1.UserRole.ADMIN_ETABLISSEMENT,
+                establishment: fst || undefined,
                 isActive: true,
             });
             await this.userRepository.save(etabAdmin);
@@ -136,6 +145,32 @@ let SeederService = SeederService_1 = class SeederService {
                     isActive: true,
                 });
                 await this.userRepository.save(student);
+            }
+        }
+        const testStudent = await this.userRepository.findOneBy({ email: 'etudiant@test.com' });
+        if (testStudent) {
+            const existingReg = await this.registrationRepository.findOneBy({ candidate: { id: testStudent.id } });
+            if (!existingReg) {
+                const formation = await this.formationRepository.findOneBy({ title: 'Master Ingénierie Topographique et Géomatique Appliquée (ITGA)' });
+                if (formation) {
+                    const session = await this.sessionRepository.findOne({ where: { formation: { id: formation.id } } });
+                    if (session) {
+                        this.logger.log('Creating test registration for etudiant@test.com...');
+                        const registration = this.registrationRepository.create({
+                            candidate: testStudent,
+                            session: session,
+                            status: registration_entity_2.RegistrationStatus.PENDING,
+                            registrationDate: new Date()
+                        });
+                        const savedReg = await this.registrationRepository.save(registration);
+                        const dossier = this.dossierRepository.create({
+                            registration: savedReg,
+                            isComplete: false,
+                            documents: {}
+                        });
+                        await this.dossierRepository.save(dossier);
+                    }
+                }
             }
         }
     }
@@ -220,7 +255,11 @@ exports.SeederService = SeederService = SeederService_1 = __decorate([
     __param(1, (0, typeorm_1.InjectRepository)(establishment_entity_1.Establishment)),
     __param(2, (0, typeorm_1.InjectRepository)(formation_entity_1.Formation)),
     __param(3, (0, typeorm_1.InjectRepository)(session_entity_1.Session)),
+    __param(4, (0, typeorm_1.InjectRepository)(registration_entity_1.Registration)),
+    __param(5, (0, typeorm_1.InjectRepository)(dossier_entity_1.Dossier)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
+        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository])

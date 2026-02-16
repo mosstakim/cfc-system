@@ -57,7 +57,10 @@ let UsersService = class UsersService {
         this.usersRepository = usersRepository;
     }
     async findByEmail(email) {
-        return this.usersRepository.findOne({ where: { email } });
+        return this.usersRepository.findOne({
+            where: { email },
+            relations: ['establishment']
+        });
     }
     async create(createUserDto) {
         const { password, ...userData } = createUserDto;

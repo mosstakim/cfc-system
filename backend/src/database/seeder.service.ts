@@ -7,6 +7,9 @@ import * as bcrypt from 'bcrypt';
 import { Establishment } from '../academic/entities/establishment.entity';
 import { Formation } from '../academic/entities/formation.entity';
 import { Session } from '../academic/entities/session.entity';
+import { Registration } from '../registration/entities/registration.entity';
+import { Dossier } from '../registration/entities/dossier.entity';
+import { RegistrationStatus } from '../registration/entities/registration.entity';
 
 @Injectable()
 export class SeederService implements OnApplicationBootstrap {
@@ -17,14 +20,16 @@ export class SeederService implements OnApplicationBootstrap {
         @InjectRepository(Establishment) private establishmentRepository: Repository<Establishment>,
         @InjectRepository(Formation) private formationRepository: Repository<Formation>,
         @InjectRepository(Session) private sessionRepository: Repository<Session>,
+        @InjectRepository(Registration) private registrationRepository: Repository<Registration>,
+        @InjectRepository(Dossier) private dossierRepository: Repository<Dossier>,
     ) {
         this.logger.log('SeederService initialized');
     }
 
     async onApplicationBootstrap() {
         this.logger.log('Initializing database seeding...');
-        await this.seedUsers();
-        await this.seedAcademicData();
+        await this.seedAcademicData(); // Run first to create establishments
+        await this.seedUsers(); // Run second to assign users to establishments
         this.logger.log('Database seeding completed.');
     }
 
@@ -48,6 +53,7 @@ export class SeederService implements OnApplicationBootstrap {
         // 2. Admin Etablissement (FST)
         const etabAdminEmail = 'fst.admin@cfc.usms.ac.ma';
         if (!await this.userRepository.findOneBy({ email: etabAdminEmail })) {
+            const fst = await this.establishmentRepository.findOneBy({ name: 'FST Béni Mellal' });
             this.logger.log('Creating establishment admin user...');
             const passwordHash = await bcrypt.hash('fst123', 10);
             const etabAdmin = this.userRepository.create({
@@ -56,6 +62,7 @@ export class SeederService implements OnApplicationBootstrap {
                 firstName: 'Admin',
                 lastName: 'FST',
                 role: UserRole.ADMIN_ETABLISSEMENT,
+                establishment: fst || undefined, // Assign establishment if found
                 isActive: true,
             });
             await this.userRepository.save(etabAdmin);
@@ -97,6 +104,36 @@ export class SeederService implements OnApplicationBootstrap {
                     isActive: true,
                 });
                 await this.userRepository.save(student);
+            }
+        }
+
+        // 5. Create Test Registration for 'etudiant@test.com'
+        const testStudent = await this.userRepository.findOneBy({ email: 'etudiant@test.com' });
+        if (testStudent) {
+            const existingReg = await this.registrationRepository.findOneBy({ candidate: { id: testStudent.id } });
+            if (!existingReg) {
+                // Find a session (e.g., from FST - ITGA)
+                const formation = await this.formationRepository.findOneBy({ title: 'Master Ingénierie Topographique et Géomatique Appliquée (ITGA)' });
+                if (formation) {
+                    const session = await this.sessionRepository.findOne({ where: { formation: { id: formation.id } } });
+                    if (session) {
+                        this.logger.log('Creating test registration for etudiant@test.com...');
+                        const registration = this.registrationRepository.create({
+                            candidate: testStudent,
+                            session: session,
+                            status: RegistrationStatus.PENDING,
+                            registrationDate: new Date()
+                        });
+                        const savedReg = await this.registrationRepository.save(registration);
+
+                        const dossier = this.dossierRepository.create({
+                            registration: savedReg,
+                            isComplete: false,
+                            documents: {}
+                        });
+                        await this.dossierRepository.save(dossier);
+                    }
+                }
             }
         }
     }

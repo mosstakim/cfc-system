@@ -15,7 +15,11 @@ interface Establishment {
     name: string;
 }
 
-export default function FormationManagement() {
+interface Props {
+    establishmentId?: string;
+}
+
+export default function FormationManagement({ establishmentId }: Props) {
     const [formations, setFormations] = useState<Formation[]>([]);
     const [establishments, setEstablishments] = useState<Establishment[]>([]);
     const [isEditing, setIsEditing] = useState(false);
@@ -31,6 +35,11 @@ export default function FormationManagement() {
             const res = await api.get('/academic');
             // Assuming res.data contains { formations: [], establishments: [], sessions: [] }
             setFormations(res.data.formations || []);
+            if (establishmentId) {
+                setFormations((res.data.formations || []).filter((f: Formation) => f.establishmentId === establishmentId));
+            } else {
+                setFormations(res.data.formations || []);
+            }
             setEstablishments(res.data.establishments || []);
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -82,7 +91,7 @@ export default function FormationManagement() {
                     onClick={() => {
                         setShowForm(!showForm);
                         setIsEditing(false);
-                        setCurrentFormation({});
+                        setCurrentFormation({ establishmentId: establishmentId });
                     }}
                 >
                     {showForm ? 'Annuler' : 'Nouvelle Formation'}
@@ -126,19 +135,21 @@ export default function FormationManagement() {
                             placeholder="ex: 12 mois"
                         />
                     </div>
-                    <div className="form-group">
-                        <label>Établissement</label>
-                        <select
-                            value={currentFormation.establishmentId || ''}
-                            onChange={e => setCurrentFormation({ ...currentFormation, establishmentId: e.target.value })}
-                            required
-                        >
-                            <option value="">Sélectionner un établissement</option>
-                            {establishments.map(est => (
-                                <option key={est.id} value={est.id}>{est.name}</option>
-                            ))}
-                        </select>
-                    </div>
+                    {!establishmentId && (
+                        <div className="form-group">
+                            <label>Établissement</label>
+                            <select
+                                value={currentFormation.establishmentId || ''}
+                                onChange={e => setCurrentFormation({ ...currentFormation, establishmentId: e.target.value })}
+                                required
+                            >
+                                <option value="">Sélectionner un établissement</option>
+                                {establishments.map(est => (
+                                    <option key={est.id} value={est.id}>{est.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
                     <button type="submit" className="btn">{isEditing ? 'Mettre à jour' : 'Créer'}</button>
                 </form>
             )}
