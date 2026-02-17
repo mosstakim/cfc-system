@@ -5,5 +5,6 @@ export declare class Session {
     startDate: Date;
     endDate: Date;
     isOpen: boolean;
+    formationId: string;
     formation: Formation;
 }

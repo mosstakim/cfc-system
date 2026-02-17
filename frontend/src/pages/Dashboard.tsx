@@ -105,20 +105,6 @@ function Dashboard() {
                 </>
             )}
 
-
-            {user.role === 'ADMIN_ETABLISSEMENT' && (
-                <>
-                    <div style={{ marginBottom: '2rem' }}>
-                        <h3 style={{ marginBottom: '1rem', color: '#1f2937' }}>Gestion : {user.establishment?.name}</h3>
-                        <FormationManagement establishmentId={user.establishment?.id} />
-                    </div>
-                    <div className="card">
-                        <h3>Inscriptions à valider</h3>
-                        <AdminRegistrationsTable establishmentId={user.establishment?.id} />
-                    </div>
-                </>
-            )}
-
             {user.role === 'COORDINATOR' && (
                 <>
                     <CoordinatorDashboard />

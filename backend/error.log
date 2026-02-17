@@ -17,56 +17,101 @@
 }
 ---
 {
-  "timestamp": "2026-02-16T20:08:54.165Z",
-  "path": "/users/69538434-4950-4261-8a4a-ed6d0299df8e",
-  "method": "DELETE",
+  "timestamp": "2026-02-17T19:13:57.932Z",
+  "path": "/auth/login",
+  "method": "POST",
+  "status": 401,
+  "error": "Identifiants incorrects",
+  "stack": "UnauthorizedException: Identifiants incorrects\n    at LocalStrategy.validate (/usr/src/app/src/auth/strategies/local.strategy.ts:16:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async LocalStrategy.callback [as _verify] (/usr/src/app/node_modules/@nestjs/passport/dist/passport/passport.strategy.js:13:44)"
+}
+---
+{
+  "timestamp": "2026-02-17T19:14:49.086Z",
+  "path": "/auth/login",
+  "method": "POST",
+  "status": 401,
+  "error": "Identifiants incorrects",
+  "stack": "UnauthorizedException: Identifiants incorrects\n    at LocalStrategy.validate (/usr/src/app/src/auth/strategies/local.strategy.ts:16:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async LocalStrategy.callback [as _verify] (/usr/src/app/node_modules/@nestjs/passport/dist/passport/passport.strategy.js:13:44)"
+}
+---
+{
+  "timestamp": "2026-02-17T19:18:54.568Z",
+  "path": "/users/admin",
+  "method": "POST",
+  "status": 500,
+  "error": "data and salt arguments required",
+  "stack": "Error: data and salt arguments required\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:133:17)\n    at /usr/src/app/node_modules/bcrypt/promises.js:26:12\n    at new Promise (<anonymous>)\n    at Object.promise (/usr/src/app/node_modules/bcrypt/promises.js:17:12)\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:129:25)\n    at UsersService.create (/usr/src/app/src/users/users.service.ts:22:39)\n    at UsersController.createAdmin (/usr/src/app/src/users/users.controller.ts:25:30)\n    at /usr/src/app/node_modules/@nestjs/core/router/router-execution-context.js:38:29\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+}
+---
+{
+  "timestamp": "2026-02-17T19:18:57.798Z",
+  "path": "/users/admin",
+  "method": "POST",
+  "status": 500,
+  "error": "data and salt arguments required",
+  "stack": "Error: data and salt arguments required\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:133:17)\n    at /usr/src/app/node_modules/bcrypt/promises.js:26:12\n    at new Promise (<anonymous>)\n    at Object.promise (/usr/src/app/node_modules/bcrypt/promises.js:17:12)\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:129:25)\n    at UsersService.create (/usr/src/app/src/users/users.service.ts:22:39)\n    at UsersController.createAdmin (/usr/src/app/src/users/users.controller.ts:25:30)\n    at /usr/src/app/node_modules/@nestjs/core/router/router-execution-context.js:38:29\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+}
+---
+{
+  "timestamp": "2026-02-17T19:19:03.762Z",
+  "path": "/users/admin",
+  "method": "POST",
+  "status": 500,
+  "error": "data and salt arguments required",
+  "stack": "Error: data and salt arguments required\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:133:17)\n    at /usr/src/app/node_modules/bcrypt/promises.js:26:12\n    at new Promise (<anonymous>)\n    at Object.promise (/usr/src/app/node_modules/bcrypt/promises.js:17:12)\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:129:25)\n    at UsersService.create (/usr/src/app/src/users/users.service.ts:22:39)\n    at UsersController.createAdmin (/usr/src/app/src/users/users.controller.ts:25:30)\n    at /usr/src/app/node_modules/@nestjs/core/router/router-execution-context.js:38:29\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+}
+---
+{
+  "timestamp": "2026-02-17T19:19:07.037Z",
+  "path": "/users/admin",
+  "method": "POST",
+  "status": 500,
+  "error": "data and salt arguments required",
+  "stack": "Error: data and salt arguments required\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:133:17)\n    at /usr/src/app/node_modules/bcrypt/promises.js:26:12\n    at new Promise (<anonymous>)\n    at Object.promise (/usr/src/app/node_modules/bcrypt/promises.js:17:12)\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:129:25)\n    at UsersService.create (/usr/src/app/src/users/users.service.ts:22:39)\n    at UsersController.createAdmin (/usr/src/app/src/users/users.controller.ts:25:30)\n    at /usr/src/app/node_modules/@nestjs/core/router/router-execution-context.js:38:29\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+}
+---
+{
+  "timestamp": "2026-02-17T19:19:08.894Z",
+  "path": "/users/admin",
+  "method": "POST",
+  "status": 500,
+  "error": "data and salt arguments required",
+  "stack": "Error: data and salt arguments required\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:133:17)\n    at /usr/src/app/node_modules/bcrypt/promises.js:26:12\n    at new Promise (<anonymous>)\n    at Object.promise (/usr/src/app/node_modules/bcrypt/promises.js:17:12)\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:129:25)\n    at UsersService.create (/usr/src/app/src/users/users.service.ts:22:39)\n    at UsersController.createAdmin (/usr/src/app/src/users/users.controller.ts:25:30)\n    at /usr/src/app/node_modules/@nestjs/core/router/router-execution-context.js:38:29\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+}
+---
+{
+  "timestamp": "2026-02-17T19:19:09.292Z",
+  "path": "/users/admin",
+  "method": "POST",
+  "status": 500,
+  "error": "data and salt arguments required",
+  "stack": "Error: data and salt arguments required\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:133:17)\n    at /usr/src/app/node_modules/bcrypt/promises.js:26:12\n    at new Promise (<anonymous>)\n    at Object.promise (/usr/src/app/node_modules/bcrypt/promises.js:17:12)\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:129:25)\n    at UsersService.create (/usr/src/app/src/users/users.service.ts:22:39)\n    at UsersController.createAdmin (/usr/src/app/src/users/users.controller.ts:25:30)\n    at /usr/src/app/node_modules/@nestjs/core/router/router-execution-context.js:38:29\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+}
+---
+{
+  "timestamp": "2026-02-17T19:19:09.501Z",
+  "path": "/users/admin",
+  "method": "POST",
+  "status": 500,
+  "error": "data and salt arguments required",
+  "stack": "Error: data and salt arguments required\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:133:17)\n    at /usr/src/app/node_modules/bcrypt/promises.js:26:12\n    at new Promise (<anonymous>)\n    at Object.promise (/usr/src/app/node_modules/bcrypt/promises.js:17:12)\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:129:25)\n    at UsersService.create (/usr/src/app/src/users/users.service.ts:22:39)\n    at UsersController.createAdmin (/usr/src/app/src/users/users.controller.ts:25:30)\n    at /usr/src/app/node_modules/@nestjs/core/router/router-execution-context.js:38:29\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+}
+---
+{
+  "timestamp": "2026-02-17T19:19:09.693Z",
+  "path": "/users/admin",
+  "method": "POST",
+  "status": 500,
+  "error": "data and salt arguments required",
+  "stack": "Error: data and salt arguments required\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:133:17)\n    at /usr/src/app/node_modules/bcrypt/promises.js:26:12\n    at new Promise (<anonymous>)\n    at Object.promise (/usr/src/app/node_modules/bcrypt/promises.js:17:12)\n    at Object.hash (/usr/src/app/node_modules/bcrypt/bcrypt.js:129:25)\n    at UsersService.create (/usr/src/app/src/users/users.service.ts:22:39)\n    at UsersController.createAdmin (/usr/src/app/src/users/users.controller.ts:25:30)\n    at /usr/src/app/node_modules/@nestjs/core/router/router-execution-context.js:38:29\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+}
+---
+{
+  "timestamp": "2026-02-17T19:20:05.390Z",
+  "path": "/favicon.ico",
+  "method": "GET",
   "status": 404,
-  "error": "User with ID 69538434-4950-4261-8a4a-ed6d0299df8e not found",
-  "stack": "NotFoundException: User with ID 69538434-4950-4261-8a4a-ed6d0299df8e not found\n    at UsersService.remove (/usr/src/app/src/users/users.service.ts:67:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
-}
----
-{
-  "timestamp": "2026-02-16T20:19:51.308Z",
-  "path": "/auth/login",
-  "method": "POST",
-  "status": 401,
-  "error": "Identifiants incorrects",
-  "stack": "UnauthorizedException: Identifiants incorrects\n    at LocalStrategy.validate (/usr/src/app/src/auth/strategies/local.strategy.ts:16:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async LocalStrategy.callback [as _verify] (/usr/src/app/node_modules/@nestjs/passport/dist/passport/passport.strategy.js:13:44)"
-}
----
-{
-  "timestamp": "2026-02-16T20:19:52.874Z",
-  "path": "/auth/login",
-  "method": "POST",
-  "status": 401,
-  "error": "Identifiants incorrects",
-  "stack": "UnauthorizedException: Identifiants incorrects\n    at LocalStrategy.validate (/usr/src/app/src/auth/strategies/local.strategy.ts:16:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async LocalStrategy.callback [as _verify] (/usr/src/app/node_modules/@nestjs/passport/dist/passport/passport.strategy.js:13:44)"
-}
----
-{
-  "timestamp": "2026-02-16T20:20:04.590Z",
-  "path": "/auth/login",
-  "method": "POST",
-  "status": 401,
-  "error": "Identifiants incorrects",
-  "stack": "UnauthorizedException: Identifiants incorrects\n    at LocalStrategy.validate (/usr/src/app/src/auth/strategies/local.strategy.ts:16:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async LocalStrategy.callback [as _verify] (/usr/src/app/node_modules/@nestjs/passport/dist/passport/passport.strategy.js:13:44)"
-}
----
-{
-  "timestamp": "2026-02-16T20:20:05.771Z",
-  "path": "/auth/login",
-  "method": "POST",
-  "status": 401,
-  "error": "Identifiants incorrects",
-  "stack": "UnauthorizedException: Identifiants incorrects\n    at LocalStrategy.validate (/usr/src/app/src/auth/strategies/local.strategy.ts:16:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async LocalStrategy.callback [as _verify] (/usr/src/app/node_modules/@nestjs/passport/dist/passport/passport.strategy.js:13:44)"
-}
----
-{
-  "timestamp": "2026-02-16T20:22:41.011Z",
-  "path": "/auth/login",
-  "method": "POST",
-  "status": 401,
-  "error": "Identifiants incorrects",
-  "stack": "UnauthorizedException: Identifiants incorrects\n    at LocalStrategy.validate (/usr/src/app/src/auth/strategies/local.strategy.ts:16:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async LocalStrategy.callback [as _verify] (/usr/src/app/node_modules/@nestjs/passport/dist/passport/passport.strategy.js:13:44)"
+  "error": "Cannot GET /favicon.ico",
+  "stack": "NotFoundException: Cannot GET /favicon.ico\n    at callback (/usr/src/app/node_modules/@nestjs/core/router/routes-resolver.js:77:19)\n    at /usr/src/app/node_modules/@nestjs/core/router/router-proxy.js:9:23\n    at Layer.handleRequest (/usr/src/app/node_modules/router/lib/layer.js:152:17)\n    at trimPrefix (/usr/src/app/node_modules/router/index.js:342:13)\n    at /usr/src/app/node_modules/router/index.js:297:9\n    at processParams (/usr/src/app/node_modules/router/index.js:582:12)\n    at next (/usr/src/app/node_modules/router/index.js:291:5)\n    at Layer.handleRequest (/usr/src/app/node_modules/router/lib/layer.js:147:12)\n    at trimPrefix (/usr/src/app/node_modules/router/index.js:342:13)\n    at /usr/src/app/node_modules/router/index.js:297:9"
 }
 ---

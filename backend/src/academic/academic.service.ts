@@ -28,7 +28,7 @@ export class AcademicService {
 
   async findAll() {
     return {
-      establishments: await this.establishmentRepository.find({ relations: ['formations'] }),
+      establishments: await this.establishmentRepository.find(),
       formations: await this.formationRepository.find({ relations: ['sessions'] }),
       sessions: await this.sessionRepository.find(),
     };

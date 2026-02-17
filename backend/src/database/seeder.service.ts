@@ -62,7 +62,6 @@ export class SeederService implements OnApplicationBootstrap {
                 firstName: 'Admin',
                 lastName: 'FST',
                 role: UserRole.ADMIN_ETABLISSEMENT,
-                establishment: fst || undefined, // Assign establishment if found
                 isActive: true,
             });
             await this.userRepository.save(etabAdmin);

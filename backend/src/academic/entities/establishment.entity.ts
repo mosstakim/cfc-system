@@ -1,7 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Formation } from './formation.entity';
 import { Exclude } from 'class-transformer';
-import { User } from '../../users/entities/user.entity';
 
 @Entity()
 export class Establishment {
@@ -20,8 +19,4 @@ export class Establishment {
     @Exclude()
     @OneToMany(() => Formation, (formation) => formation.establishment)
     formations: Formation[];
-
-    @Exclude()
-    @OneToMany(() => User, (user) => user.establishment)
-    admins: User[];
 }

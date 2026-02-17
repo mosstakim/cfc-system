@@ -108,7 +108,6 @@ let SeederService = SeederService_1 = class SeederService {
                 firstName: 'Admin',
                 lastName: 'FST',
                 role: user_role_enum_1.UserRole.ADMIN_ETABLISSEMENT,
-                establishment: fst || undefined,
                 isActive: true,
             });
             await this.userRepository.save(etabAdmin);

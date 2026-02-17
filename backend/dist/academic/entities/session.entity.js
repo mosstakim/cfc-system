@@ -19,6 +19,7 @@ let Session = class Session {
     startDate;
     endDate;
     isOpen;
+    formationId;
     formation;
 };
 exports.Session = Session;
@@ -42,6 +43,10 @@ __decorate([
     (0, typeorm_1.Column)({ default: true }),
     __metadata("design:type", Boolean)
 ], Session.prototype, "isOpen", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Session.prototype, "formationId", void 0);
 __decorate([
     (0, class_transformer_1.Exclude)(),
     (0, typeorm_1.ManyToOne)(() => formation_entity_1.Formation, (formation) => formation.sessions),

@@ -19,6 +19,9 @@ export class Session {
     @Column({ default: true })
     isOpen: boolean;
 
+    @Column({ nullable: true })
+    formationId: string;
+
     @Exclude()
     @ManyToOne(() => Formation, (formation) => formation.sessions)
     formation: Formation;

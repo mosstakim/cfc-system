@@ -12,10 +12,11 @@ import { User } from './users/entities/user.entity';
 import { Establishment } from './academic/entities/establishment.entity';
 import { Formation } from './academic/entities/formation.entity';
 import { Session } from './academic/entities/session.entity';
+import { Registration } from './registration/entities/registration.entity';
+import { Dossier } from './registration/entities/dossier.entity';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TasksModule } from './tasks/tasks.module';
 import { ReportingModule } from './reporting/reporting.module';
-
 import { DossierModule } from './dossier/dossier.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
@@ -38,7 +39,7 @@ import { join } from 'path';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([User, Establishment, Formation, Session]),
+    TypeOrmModule.forFeature([User, Establishment, Formation, Session, Registration, Dossier]),
     UsersModule,
     AcademicModule,
     // AcademicModule, // Remove duplicate

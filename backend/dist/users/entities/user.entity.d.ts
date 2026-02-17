@@ -1,5 +1,4 @@
 import { UserRole } from '../enums/user-role.enum';
-import { Establishment } from '../../academic/entities/establishment.entity';
 export declare class User {
     id: string;
     email: string;
@@ -10,5 +9,4 @@ export declare class User {
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
-    establishment: Establishment;
 }

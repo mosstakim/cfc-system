@@ -15,11 +15,7 @@ interface Establishment {
     name: string;
 }
 
-interface Props {
-    establishmentId?: string;
-}
-
-export default function FormationManagement({ establishmentId }: Props) {
+export default function FormationManagement() {
     const [formations, setFormations] = useState<Formation[]>([]);
     const [establishments, setEstablishments] = useState<Establishment[]>([]);
     const [isEditing, setIsEditing] = useState(false);
@@ -35,11 +31,6 @@ export default function FormationManagement({ establishmentId }: Props) {
             const res = await api.get('/academic');
             // Assuming res.data contains { formations: [], establishments: [], sessions: [] }
             setFormations(res.data.formations || []);
-            if (establishmentId) {
-                setFormations((res.data.formations || []).filter((f: Formation) => f.establishmentId === establishmentId));
-            } else {
-                setFormations(res.data.formations || []);
-            }
             setEstablishments(res.data.establishments || []);
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -91,7 +82,7 @@ export default function FormationManagement({ establishmentId }: Props) {
                     onClick={() => {
                         setShowForm(!showForm);
                         setIsEditing(false);
-                        setCurrentFormation({ establishmentId: establishmentId });
+                        setCurrentFormation({});
                     }}
                 >
                     {showForm ? 'Annuler' : 'Nouvelle Formation'}
@@ -135,21 +126,19 @@ export default function FormationManagement({ establishmentId }: Props) {
                             placeholder="ex: 12 mois"
                         />
                     </div>
-                    {!establishmentId && (
-                        <div className="form-group">
-                            <label>Établissement</label>
-                            <select
-                                value={currentFormation.establishmentId || ''}
-                                onChange={e => setCurrentFormation({ ...currentFormation, establishmentId: e.target.value })}
-                                required
-                            >
-                                <option value="">Sélectionner un établissement</option>
-                                {establishments.map(est => (
-                                    <option key={est.id} value={est.id}>{est.name}</option>
-                                ))}
-                            </select>
-                        </div>
-                    )}
+                    <div className="form-group">
+                        <label>Établissement</label>
+                        <select
+                            value={currentFormation.establishmentId || ''}
+                            onChange={e => setCurrentFormation({ ...currentFormation, establishmentId: e.target.value })}
+                            required
+                        >
+                            <option value="">Sélectionner un établissement</option>
+                            {establishments.map(est => (
+                                <option key={est.id} value={est.id}>{est.name}</option>
+                            ))}
+                        </select>
+                    </div>
                     <button type="submit" className="btn">{isEditing ? 'Mettre à jour' : 'Créer'}</button>
                 </form>
             )}

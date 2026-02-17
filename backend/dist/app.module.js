@@ -21,6 +21,8 @@ const user_entity_1 = require("./users/entities/user.entity");
 const establishment_entity_1 = require("./academic/entities/establishment.entity");
 const formation_entity_1 = require("./academic/entities/formation.entity");
 const session_entity_1 = require("./academic/entities/session.entity");
+const registration_entity_1 = require("./registration/entities/registration.entity");
+const dossier_entity_1 = require("./registration/entities/dossier.entity");
 const schedule_1 = require("@nestjs/schedule");
 const tasks_module_1 = require("./tasks/tasks.module");
 const reporting_module_1 = require("./reporting/reporting.module");
@@ -49,7 +51,7 @@ exports.AppModule = AppModule = __decorate([
                 autoLoadEntities: true,
                 synchronize: true,
             }),
-            typeorm_1.TypeOrmModule.forFeature([user_entity_1.User, establishment_entity_1.Establishment, formation_entity_1.Formation, session_entity_1.Session]),
+            typeorm_1.TypeOrmModule.forFeature([user_entity_1.User, establishment_entity_1.Establishment, formation_entity_1.Formation, session_entity_1.Session, registration_entity_1.Registration, dossier_entity_1.Dossier]),
             users_module_1.UsersModule,
             academic_module_1.AcademicModule,
             registration_module_1.RegistrationModule,

@@ -13,6 +13,7 @@ exports.Formation = void 0;
 const typeorm_1 = require("typeorm");
 const establishment_entity_1 = require("./establishment.entity");
 const session_entity_1 = require("./session.entity");
+const class_transformer_1 = require("class-transformer");
 let Formation = class Formation {
     id;
     title;
@@ -20,6 +21,7 @@ let Formation = class Formation {
     tuitionFees;
     duration;
     isPublished;
+    establishmentId;
     establishment;
     sessions;
 };
@@ -49,6 +51,11 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Formation.prototype, "isPublished", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Formation.prototype, "establishmentId", void 0);
+__decorate([
+    (0, class_transformer_1.Exclude)(),
     (0, typeorm_1.ManyToOne)(() => establishment_entity_1.Establishment, (establishment) => establishment.formations),
     __metadata("design:type", establishment_entity_1.Establishment)
 ], Formation.prototype, "establishment", void 0);

@@ -14,7 +14,6 @@ export declare class AuthService {
             firstName: any;
             lastName: any;
             role: any;
-            establishment: any;
         };
     }>;
 }

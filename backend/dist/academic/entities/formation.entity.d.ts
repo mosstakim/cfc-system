@@ -7,6 +7,7 @@ export declare class Formation {
     tuitionFees: number;
     duration: string;
     isPublished: boolean;
+    establishmentId: string;
     establishment: Establishment;
     sessions: Session[];
 }
